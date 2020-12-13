@@ -9,7 +9,7 @@ require 'pry'
 
 class PigLatinizer
 
-    def start_with_vowel?(word)
+    def is_vowel?(word)
         vowels = %w[a e i o u] + %w[A E I O U]
 
         vowels.include?(word[0])
@@ -17,43 +17,18 @@ class PigLatinizer
         # check vowels if they include first letter of word
     end
 
-    def piglatinize(word)
-        array_of_letters = word.split("")
-        #binding.pry 
-
-        array_of_letters.collect do |letter|
-            if start_with_vowel?(letter[0])
-                letter + "way"
-            else
-                until start_with_vowel?(letter[0]) do 
-                    letter = letter[1..-1] + letter[0]
-                end
-
-                letter = letter + "ay"
-                binding.pry
+    def piglatinize(string)
+        words = string.split #turn into an array 
+        
+        words.collect do |word| #itterate over the array of words
+          if is_vowel?(word[0]) #example apple
+            word += "way" #appleway
+          else #example word bacon
+            until is_vowel?(word[0]) do #until a letter in a word is a vowel (acon)
+              word = word[1..-1] + word[0] #letters 2- end of rest of letters plus the first letter at the end (aconb)
             end
-        end.join(" ")
-
-
-
-
-        # pig_array = []
-
-        # array_of_letters.each do |word|
-        #     if word.length < 2
-        #         pig_array << word + "way" 
-        #     elsif vowels.include?(word[0])
-        #         pig_array <<  word + "way"
-        #     elsif consonants.include?(word[0]) && consonants.include?(word[1]) && consonants.include?(word[2])
-        #         pig_array <<  word[3..-1] + word[0..2] + 'ay'
-        #     elsif consonants.include?(word[0]) && consonants.include?(word[1])
-        #         pig_array <<  word[2..-1] + word[0..1] + 'ay'
-        #     elsif consonants.include?(word[0])
-        #         pig_array <<  word[1..-1] + word[0] + 'ay'
-        #     else 
-        #         pig_array <<  word + '?'
-        #   end
-        # end
-        # pig_array.join(', ').gsub(/,/, '')
-    end
+            word = word + "ay" #add ay at end of word aconbay
+          end
+        end.join(" ") #do this to all words then join with a space and make a string again
+      end
 end
